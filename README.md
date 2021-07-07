@@ -6,8 +6,8 @@
 * [common.vimrc 通用基础配置说明](#commonvimrc-通用基础配置说明)
 * [key.vimrc    快捷键相关配置说明](#keyvimrc-快捷键相关配置说明)
 * [plug.vimrc   插件相关的配置说明](#plugvimrc-插件相关的配置说明)
-  * [插件列表](#插件列表)
-  * [插件简单说明以及键位绑定](#插件简单说明以及键位绑定)
+    * [插件列表](#插件列表)
+    * [插件简单说明以及键位绑定](#插件简单说明以及键位绑定)
 
 <!-- markdown-toc -->
 
@@ -109,7 +109,6 @@ PS: 如果需要格式化js和ts代码，请手动安装: npm i js-beautify -g
   Plug 'iamcco/markdown-preview.nvim'   -- md 预览插件
   Plug 'mzlogin/vim-markdown-toc'       -- md 生成目录
   Plug 'neoclide/coc.nvim'              -- coc
-  Plug 'nvim-treesitter/nvim-treesitter'-- treesitter
   Plug 'voldikss/vim-floaterm'          -- 悬浮终端插件
   Plug 'tpope/vim-dadbod'               -- 数据库可视化工具
   Plug 'kristijanhusak/vim-dadbod-ui'   -- 数据库可视化工具
@@ -162,10 +161,11 @@ PS: 如果需要格式化js和ts代码，请手动安装: npm i js-beautify -g
     - ( or ) 跳转到上下 git 修改
     - C 展示 git commit or change info
     - leader - g 开启临时 git blame 显示
-    - T 打开 coc-expoler 文件管理器
 
 - [voldikss/vim-floaterm](https://github.com/voldikss/vim-floaterm)
   - ctrl - t 打开关闭 浮动终端
+  - ctrl - b 打开关闭 浮动数据库可视化工具(依赖于 tpope/vim-dadbod)
+  - T        打开关闭 浮动ranger
 
 - [tpope/vim-dadbod](https://github.com/tpope/vim-dadbod)
 - [kristijanhusak/vim-dadbod-ui](kristijanhusak/vim-dadbod-ui)

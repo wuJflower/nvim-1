@@ -27,6 +27,7 @@
                 \ 'coc-html', 'coc-css',
                 \ 'coc-clangd',
                 \ 'coc-go',
+                \ 'coc-lua',
                 \ 'coc-vimlsp',
                 \ 'coc-sh',
                 \ 'coc-java',
@@ -35,7 +36,7 @@
                 \ 'coc-prettier', 'coc-gist',
                 \ 'coc-pairs', 'coc-snippets', 'coc-tabnine',
                 \ 'coc-word',  'coc-markdownlint',
-                \ 'coc-translator', 'coc-explorer', 'coc-git'
+                \ 'coc-translator', 'coc-git'
                 \ ]
         " maps
             nmap     <silent>       <F2>      <Plug>(coc-rename)
@@ -86,18 +87,31 @@
             nnoremap <silent>       N         :call WordNavigation('backward')<cr>
 
     " floaterm
-        " ctrl t 打开或者关临时终端窗口
+            au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
             let g:floaterm_title = ''
             let g:floaterm_width = 0.8
             let g:floaterm_height = 0.8
             let g:floaterm_autoclose = 1
+            let g:floaterm_opener = 'edit'
             hi! link FloatermBorder NONE
-            nnoremap <silent>       <c-t>     :try \| call system("~/scripts/edit-profile.sh VIM_TEM_DIR ".$PWD) \| endtry \| FloatermToggle TERM<cr>
-            tnoremap <silent><expr> <c-t>     &ft == "floaterm" ? "<c-\><c-n>:FloatermToggle TERM<cr>" : "<c-t>"
-            au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
+        " floaterm toggle by name and cmd
+            func FTToggle(name, cmd, pre_cmd) abort
+                if floaterm#terminal#get_bufnr(a:name) != -1
+                    exec 'FloatermToggle ' . a:name
+                else
+                    exec a:pre_cmd
+                    exec printf('FloatermNew --name=%s %s', a:name, a:cmd)
+                endif
+            endf
+            nnoremap <silent>   <c-t> :call FTToggle('TERM', '', "try \| call system('~/scripts/edit-profile.sh VIM_TEM_DIR " . $PWD . "') \| endtry")<cr>
+            nnoremap <silent>   <c-b> :call FTToggle('DBUI', 'nvim +CALLDB', '')<cr>
+            nnoremap <silent>   T     :call FTToggle('RANGER', 'ranger', '')<cr>
+            tmap <silent><expr> <c-t> &ft == "floaterm" ? printf('<c-\><c-n>:FloatermHide<cr>%s', floaterm#terminal#get_bufnr('TERM') == bufnr('%') ? '' : '<c-t>') : "<c-t>"
+            tmap <silent><expr> <c-b> &ft == "floaterm" ? printf('<c-\><c-n>:FloatermHide<cr>%s', floaterm#terminal#get_bufnr('DBUI') == bufnr('%') ? '' : '<c-b>') : "<c-b>"
+            tmap <silent><expr> T     &ft == "floaterm" ? printf('<c-\><c-n>:FloatermHide<cr>%s', floaterm#terminal#get_bufnr('RANGER') == bufnr('%') ? '' : 'T') : "T"
+
 
     " vim-dadbod
-        " ctrl b 打开或者关闭数据库
             " let g:dbs = [{ 'name': 'connection_name', 'url': 'mysql://user:password@host:port' }]
             let g:db_ui_save_location = '~/.config/zsh/cache'
             let g:db_ui_use_nerd_fonts = 1
@@ -110,22 +124,11 @@
             \     'Alter Table': 'ALTER TABLE `{schema}`.`{table}` ADD '
             \   }
             \ }
-            let g:db_ui_locked = 0
             com! CALLDB call DBUI()
             func DBUI()
-                let g:db_ui_locked = 1
                 set laststatus=0 showtabline=0 nonu signcolumn=no nofoldenable
                 exec 'DBUI'
             endf
-            func DBUIToggle()
-                if floaterm#terminal#get_bufnr('DBUI') < 0
-                    exec 'FloatermNew --name=DBUI nvim +CALLDB'
-                else
-                    exec 'FloatermToggle DBUI'
-                endif
-            endf
-            nnoremap <silent><expr> <c-b> g:db_ui_locked ? "" : ":call DBUIToggle()<CR>"
-            tnoremap <silent><expr> <c-b> &ft == "floaterm" ? "<c-\><c-n>:call DBUIToggle()<CR>" : "<c-b>"
 
     " markdown-preview-nvim
         " 使用surf浏览器预览
