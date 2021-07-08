@@ -4,7 +4,6 @@
             Plug 'terryma/vim-expand-region'
             Plug 'lfv89/vim-interestingwords'
             Plug 'mg979/vim-visual-multi', {'branch': 'master'}
-            Plug 'luochen1990/rainbow'
             Plug 'tpope/vim-dadbod'
             Plug 'kristijanhusak/vim-dadbod-ui', { 'on': ['DBUI'] }
             Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && npm i'  }
@@ -13,6 +12,8 @@
             Plug 'voldikss/vim-floaterm'
             Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
             Plug 'junegunn/fzf.vim'
+            Plug 'nvim-treesitter/nvim-treesitter'
+            Plug 'nvim-treesitter/playground'
             Plug 'yaocccc/vim-lines'
             Plug 'yaocccc/vim-surround'
             Plug 'yaocccc/vim-comment'
@@ -62,9 +63,6 @@
             vmap     <silent>       ag        <Plug>(coc-git-chunk-outer)
             nmap     <silent><expr> C         get(b:, 'coc_git_blame', '') ==# 'Not committed yet' ? "<Plug>(coc-git-chunkinfo)" : "<Plug>(coc-git-commit)"
             nmap     <silent>       <leader>g :call coc#config('git.addGBlameToVirtualText',  !get(g:coc_user_config, 'git.addGBlameToVirtualText', 0)) \| call nvim_buf_clear_namespace(bufnr(), 1, 0, -1)<cr>
-        " coc-explorer
-            nnoremap <silent>       T         :CocCommand explorer --preset floating<cr>
-            hi CocExplorerNormalFloat ctermbg=none guibg=none
         " coc-prettier
             autocmd FileType javascript,typescript,json vmap <buffer> = <Plug>(coc-format-selected)
             autocmd FileType javascript,typescript,json nmap <buffer> = <Plug>(coc-format-selected)
@@ -73,10 +71,6 @@
         " v扩大选择 V缩小选择
             vmap     <silent>       v         <Plug>(expand_region_expand)
             vmap     <silent>       V         <Plug>(expand_region_shrink)
-
-    " rainbow
-            let g:rainbow_active = 1
-            let g:rainbow_conf = {'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta', 'blue', 'yellow', 'cyan', 'magenta']}
 
     " 快速跳转 vim-interestingwords
         " 设置不同匹配词颜色不同
@@ -87,7 +81,7 @@
             nnoremap <silent>       N         :call WordNavigation('backward')<cr>
 
     " floaterm
-            au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 5 }) | endif
+            au BufEnter * if &buftype == 'terminal' | :call timer_start(50, { -> execute('startinsert!') }, { 'repeat': 3 }) | endif
             let g:floaterm_title = ''
             let g:floaterm_width = 0.8
             let g:floaterm_height = 0.8
@@ -103,13 +97,12 @@
                     exec printf('FloatermNew --name=%s %s', a:name, a:cmd)
                 endif
             endf
-            nnoremap <silent>   <c-t> :call FTToggle('TERM', '', "try \| call system('~/scripts/edit-profile.sh VIM_TEM_DIR " . $PWD . "') \| endtry")<cr>
+            nnoremap <silent>   <c-f> :call FTToggle('FILE', 'ranger', '')<cr>
             nnoremap <silent>   <c-b> :call FTToggle('DBUI', 'nvim +CALLDB', '')<cr>
-            nnoremap <silent>   T     :call FTToggle('RANGER', 'ranger', '')<cr>
-            tmap <silent><expr> <c-t> &ft == "floaterm" ? printf('<c-\><c-n>:FloatermHide<cr>%s', floaterm#terminal#get_bufnr('TERM') == bufnr('%') ? '' : '<c-t>') : "<c-t>"
+            nnoremap <silent>   <c-t> :call FTToggle('TERM', '', "try \| call system('~/scripts/edit-profile.sh VIM_TEM_DIR " . $PWD . "') \| endtry")<cr>
+            tmap <silent><expr> <c-f> &ft == "floaterm" ? printf('<c-\><c-n>:FloatermHide<cr>%s', floaterm#terminal#get_bufnr('FILE') == bufnr('%') ? '' : '<c-f>') : "<c-f>"
             tmap <silent><expr> <c-b> &ft == "floaterm" ? printf('<c-\><c-n>:FloatermHide<cr>%s', floaterm#terminal#get_bufnr('DBUI') == bufnr('%') ? '' : '<c-b>') : "<c-b>"
-            tmap <silent><expr> T     &ft == "floaterm" ? printf('<c-\><c-n>:FloatermHide<cr>%s', floaterm#terminal#get_bufnr('RANGER') == bufnr('%') ? '' : 'T') : "T"
-
+            tmap <silent><expr> <c-t> &ft == "floaterm" ? printf('<c-\><c-n>:FloatermHide<cr>%s', floaterm#terminal#get_bufnr('TERM') == bufnr('%') ? '' : '<c-t>') : "<c-t>"
 
     " vim-dadbod
             " let g:dbs = [{ 'name': 'connection_name', 'url': 'mysql://user:password@host:port' }]
@@ -147,7 +140,7 @@
             let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
             com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right:45%', 'ctrl-/'), <bang>0)
             nnoremap <silent>       <c-a>     :Ag<cr>
-            nnoremap <silent>       <c-f>     :Files<cr>
+            nnoremap <silent>       <c-p>     :Files<cr>
             nnoremap <silent>       <c-h>     :History<cr>
             nnoremap <silent>       <c-l>     :BLines<cr>
             nnoremap <silent>       <c-g>     :GFiles?<cr>
@@ -172,6 +165,10 @@
             let g:VM_maps['Decrease']           = '_'
             let g:VM_maps["Undo"]               = 'u'
             let g:VM_maps["Redo"]               = '<C-r>'
+
+    " treesitter
+            lua require('TS')
+            nnoremap <silent> H :TSHighlightCapturesUnderCursor<CR>:call lines#refresh_statusline()<cr>
 
     " yaocccc
         " line
