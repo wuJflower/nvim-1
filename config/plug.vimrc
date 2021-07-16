@@ -15,7 +15,7 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'nvim-treesitter/playground'
     Plug 'kyazdani42/nvim-web-devicons'
     Plug 'kyazdani42/nvim-tree.lua'
-    Plug 'yaocccc/vim-lines'
+    Plug 'yaocccc/nvim-lines.lua'
     Plug 'yaocccc/vim-surround'
     Plug 'yaocccc/vim-comment'
     Plug 'yaocccc/vim-hlchunk'
@@ -32,6 +32,7 @@ lua require'fzf-vim'
 lua require'coc-nvim'
 lua require'tree-sitter'
 lua require'tree-nvim'
+lua require'nvim-lines'
 lua require'yaocccc'
 
 " some hook

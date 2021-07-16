@@ -34,4 +34,4 @@ require'common'.set_highlights({
     Boolean = {fg=37};
 })
 
-require'common'.set_maps({ { 'n', 'H', ':TSHighlightCapturesUnderCursor<CR>:call lines#refresh_statusline()<cr>', {silent = true, noremap = true}} })
+require'common'.set_maps({ { 'n', 'H', ':TSHighlightCapturesUnderCursor<CR>:lua require"nvim-lines.statusline".refresh_statusline()<cr>', {silent = true, noremap = true}} })
