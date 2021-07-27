@@ -82,9 +82,11 @@
         nnoremap <m-s>     vi{
         nnoremap <leader>y :%yank<cr>
 
-    " ctrl u 清空一行
+    " emacs风格快捷键 清空一行
         nnoremap <c-u> cc<Esc>
         inoremap <c-u> <Esc>cc
+        inoremap <c-a> <Esc>I
+        inoremap <c-e> <Esc>A
 
     " alt + 上 下移动行
         nnoremap <silent> <m-up>   :m .-2<cr>
