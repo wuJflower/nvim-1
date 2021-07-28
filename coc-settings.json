@@ -45,6 +45,5 @@
         "printWidth": 160,
         "singleQuote": true,
         "disableSuccessMessage": true
-    },
-    "imselect.enableStatusItem": true
+    }
 }
