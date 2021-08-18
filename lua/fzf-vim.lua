@@ -7,7 +7,6 @@ vim.g.fzf_layout = {
     }
 }
 vim.api.nvim_command("com! -bar -bang Ag call fzf#vim#ag(<q-args>, fzf#vim#with_preview({'options': '--delimiter=: --nth=4..'}, 'right:45%', 'ctrl-/'), <bang>0)")
-vim.api.nvim_command("com! CHistory call CHistory()")
 
 vim.api.nvim_command([[
 func! CHistory()
@@ -19,7 +18,7 @@ endf
 require'common'.set_maps({
     { 'n', '<c-a>', ':Ag<cr>', {silent = true, noremap = true}},
     { 'n', '<c-p>', ':Files<cr>', {silent = true, noremap = true}},
-    { 'n', '<c-h>', ':CHistory<cr>', {silent = true, noremap = true}},
     { 'n', '<c-l>', ':BLines<cr>', {silent = true, noremap = true}},
-    { 'n', '<c-g>', ':GFiles?<cr>', {silent = true, noremap = true}}
+    { 'n', '<c-g>', ':GFiles?<cr>', {silent = true, noremap = true}},
+    { 'n', '<c-h>', ':call CHistory()<cr>', {silent = true, noremap = true}},
 })
