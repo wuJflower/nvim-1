@@ -11,7 +11,6 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    Plug 'nvim-treesitter/nvim-treesitter'
     Plug 'nvim-treesitter/playground'
     Plug 'yaocccc/nvim-lines.lua'
     Plug 'yaocccc/vim-surround'
@@ -27,7 +26,6 @@ lua require'markdown-toc-gen'
 lua require'vim-floaterm'
 lua require'fzf-vim'
 lua require'coc-nvim'
-lua require'tree-sitter'
 lua require'nvim-lines'
 lua require'vim-comment'
 
