@@ -17,7 +17,8 @@
   3. nvim中运行 `PlugInstall` 命令，然后等待
 ## 遇到问题
 > 找不到命令 `PlugInstall`
-> 原因：vim-plug 没自动加载，要把plug.vim放到runtime/autoload中去
+> 原因：vim-plug 没自动加载，
+我是chocolatey安装的neovim要把plug.vim放到C:/tools/neovim/Neovim/share/nvim/runtime/autoload中去
 
 ## 配置结构
 
