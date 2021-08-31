@@ -17,7 +17,7 @@
   3. nvim中运行 `PlugInstall` 命令，然后等待
 ## 遇到问题
 > 找不到命令 `PlugInstall`
-> 原因：vim-plug 没自动加载，配置文件位置没有放对
+> 原因：vim-plug 没自动加载，要把plug.vim放到runtime/autoload中去
 
 ## 配置结构
 
