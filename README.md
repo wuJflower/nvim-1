@@ -12,9 +12,12 @@
 <!-- markdown-toc -->
 
 ## 如何使用
-
-  1 将项目clone至 ~/.config/nvim 目录中(注意备份好自己的配置)  
-  2 nvim中运行 PlugInstall 命令，然后等待
+  1. 运行nvim[查看nvim的标准配置文件路径](https://github.com/neovim/neovim/issues/12641)`:echo stdpath('config')` $path
+  2. 将项目clone至 $path 目录中(注意备份好自己的配置)  
+  3. nvim中运行 `PlugInstall` 命令，然后等待
+## 遇到问题
+> 找不到命令 `PlugInstall`
+> 原因：vim-plug 没自动加载，配置文件位置没有放对
 
 ## 配置结构
 
